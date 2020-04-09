@@ -124,6 +124,18 @@
         #endif /* !MBEDTLS_HAVE_INT64 */
         typedef  int64_t mbedtls_mpi_sint;
         typedef uint64_t mbedtls_mpi_uint;
+        #if !defined(MBEDTLS_MPI_UINT_BITS)
+            #define MBEDTLS_MPI_UINT_BITS 64
+        #endif /* MBEDTLS_MPI_UINT_BITS */
+        #if !defined(MBEDTLS_MPI_HALF_MASK)
+            #define MBEDTLS_MPI_HALF_MASK 0xffffffff
+        #endif /* MBEDTLS_MPI_HALF_MASK */
+        #if !defined(MBEDTLS_MPI_HALF_BITS)
+            #define MBEDTLS_MPI_HALF_BITS 32
+        #endif /* MBEDTLS_MPI_HALF_BITS */
+        #if !defined(MBEDTLS_MPI_UINT_MASK)
+            #define MBEDTLS_MPI_UINT_MASK 0x7fffffffffffffffLL
+        #endif /* MBEDTLS_MPI_UINT_MASK */
     #elif defined(__GNUC__) && (                         \
         defined(__amd64__) || defined(__x86_64__)     || \
         defined(__ppc64__) || defined(__powerpc64__)  || \
@@ -136,6 +148,18 @@
         #endif /* MBEDTLS_HAVE_INT64 */
         typedef  int64_t mbedtls_mpi_sint;
         typedef uint64_t mbedtls_mpi_uint;
+        #if !defined(MBEDTLS_MPI_UINT_BITS)
+            #define MBEDTLS_MPI_UINT_BITS 64
+        #endif /* MBEDTLS_MPI_UINT_BITS */
+        #if !defined(MBEDTLS_MPI_UINT_MASK)
+            #define MBEDTLS_MPI_UINT_MASK 0x7fffffffffffffffLL
+        #endif /* MBEDTLS_MPI_UINT_MASK */
+        #if !defined(MBEDTLS_MPI_HALF_MASK)
+            #define MBEDTLS_MPI_HALF_MASK 0xffffffff
+        #endif /* MBEDTLS_MPI_HALF_MASK */
+        #if !defined(MBEDTLS_MPI_HALF_BITS)
+            #define MBEDTLS_MPI_HALF_BITS 32
+        #endif /* MBEDTLS_MPI_HALF_BITS */
         #if !defined(MBEDTLS_NO_UDBL_DIVISION)
             /* mbedtls_t_udbl defined as 128-bit unsigned int */
             typedef unsigned int mbedtls_t_udbl __attribute__((mode(TI)));
@@ -151,6 +175,18 @@
         #endif /* !MBEDTLS_HAVE_INT64 */
         typedef  int64_t mbedtls_mpi_sint;
         typedef uint64_t mbedtls_mpi_uint;
+        #if !defined(MBEDTLS_MPI_UINT_BITS)
+            #define MBEDTLS_MPI_UINT_BITS 64
+        #endif /* MBEDTLS_MPI_UINT_BITS */
+        #if !defined(MBEDTLS_MPI_UINT_MASK)
+            #define MBEDTLS_MPI_UINT_MASK 0x7fffffffffffffffLL
+        #endif /* MBEDTLS_MPI_UINT_MASK */
+        #if !defined(MBEDTLS_MPI_HALF_MASK)
+            #define MBEDTLS_MPI_HALF_MASK 0xffffffff
+        #endif /* MBEDTLS_MPI_HALF_MASK */
+        #if !defined(MBEDTLS_MPI_HALF_BITS)
+            #define MBEDTLS_MPI_HALF_BITS 32
+        #endif /* MBEDTLS_MPI_HALF_BITS */
         #if !defined(MBEDTLS_NO_UDBL_DIVISION)
             /* mbedtls_t_udbl defined as 128-bit unsigned int */
             typedef __uint128_t mbedtls_t_udbl;
@@ -160,6 +196,18 @@
         /* Force 64-bit integers with unknown compiler */
         typedef  int64_t mbedtls_mpi_sint;
         typedef uint64_t mbedtls_mpi_uint;
+        #if !defined(MBEDTLS_MPI_UINT_BITS)
+            #define MBEDTLS_MPI_UINT_BITS 64
+        #endif /* MBEDTLS_MPI_UINT_BITS */
+        #if !defined(MBEDTLS_MPI_UINT_MASK)
+            #define MBEDTLS_MPI_UINT_MASK 0x7fffffffffffffffLL
+        #endif /* MBEDTLS_MPI_UINT_MASK */
+        #if !defined(MBEDTLS_MPI_HALF_MASK)
+            #define MBEDTLS_MPI_HALF_MASK 0xffffffff
+        #endif /* MBEDTLS_MPI_HALF_MASK */
+        #if !defined(MBEDTLS_MPI_HALF_BITS)
+            #define MBEDTLS_MPI_HALF_BITS 32
+        #endif /* MBEDTLS_MPI_HALF_BITS */
     #endif
 #endif /* !MBEDTLS_HAVE_INT32 */
 
@@ -170,6 +218,19 @@
     #endif /* !MBEDTLS_HAVE_INT32 */
     typedef  int32_t mbedtls_mpi_sint;
     typedef uint32_t mbedtls_mpi_uint;
+    #if !defined(MBEDTLS_MPI_UINT_BITS)
+        #define MBEDTLS_MPI_UINT_BITS 32
+    #endif /* MBEDTLS_MPI_UINT_BITS */
+    #if !defined(MBEDTLS_MPI_UINT_MASK)
+        #define MBEDTLS_MPI_UINT_MASK 0x7fffffff
+    #endif /* MBEDTLS_MPI_UINT_MASK */
+    #if !defined(MBEDTLS_MPI_HALF_MASK)
+        #define MBEDTLS_MPI_HALF_MASK 0xffff
+    #endif /* MBEDTLS_MPI_HALF_MASK */
+    #if !defined(MBEDTLS_MPI_HALF_BITS)
+        #define MBEDTLS_MPI_HALF_BITS 16
+    #endif /* MBEDTLS_MPI_HALF_BITS */
+
     #if !defined(MBEDTLS_NO_UDBL_DIVISION)
         typedef uint64_t mbedtls_t_udbl;
         #define MBEDTLS_HAVE_UDBL
@@ -496,6 +557,27 @@ int mbedtls_mpi_read_binary( mbedtls_mpi *X, const unsigned char *buf,
                              size_t buflen );
 
 /**
+ * \brief          Return the index of the highest non-zero limb in X.
+ *
+ * \param out
+ * \param X        The MPI to analyze.
+ *                 This must point to an initialized MPI.
+ *
+ * \return         Index of the highest nonzero limb in X.
+ */
+int mbedtls_mpi_first_nonzero(size_t *out, const mbedtls_mpi *X);
+
+/**
+ * \brief          Is this equal to zero? (Constant-time)
+ *
+ * \param X        The MPI to analyze.
+ *                 This must point to an initialized MPI.
+ *
+ * \return         1 if all limbs in X == 0, 0 otherwise.
+ */
+int mbedtls_mpi_is_zero( mbedtls_mpi *X );
+
+/**
  * \brief          Import X from unsigned binary data, little endian
  *
  * \param X        The destination MPI. This must point to an initialized MPI.
@@ -593,6 +675,30 @@ int mbedtls_mpi_cmp_abs( const mbedtls_mpi *X, const mbedtls_mpi *Y );
  * \return         \c 0 if \p X is equal to \p Y.
  */
 int mbedtls_mpi_cmp_mpi( const mbedtls_mpi *X, const mbedtls_mpi *Y );
+
+/**
+ * \brief          Compare two MPIs. Constant-time.
+ *
+ * \param X        The left-hand MPI. This must point to an initialized MPI.
+ * \param Y        The right-hand MPI. This must point to an initialized MPI.
+ *
+ * \return         \c 1 if \p X is greater than \p Y.
+ * \return         \c -1 if \p X is lesser than \p Y.
+ * \return         \c 0 if \p X is equal to \p Y.
+ */
+int mbedtls_mpi_cmp_mpi_ct( const mbedtls_mpi *X, const mbedtls_mpi *Y );
+
+/**
+ * \brief          Compare an MPI with an integer. Constant-time.
+ *
+ * \param X        The left-hand MPI. This must point to an initialized MPI.
+ * \param z        The integer value to compare \p X to.
+ *
+ * \return         \c 1 if \p X is greater than \p z.
+ * \return         \c -1 if \p X is lesser than \p z.
+ * \return         \c 0 if \p X is equal to \p z.
+ */
+int mbedtls_mpi_cmp_int_ct( const mbedtls_mpi *X, mbedtls_mpi_sint z );
 
 /**
  * \brief          Check if an MPI is less than the other in constant time.
